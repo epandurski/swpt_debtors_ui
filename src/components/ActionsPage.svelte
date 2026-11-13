@@ -189,11 +189,11 @@
                       <li>Confirm the payment.</li>
                     </ol>
                     <p>
-                      <strong>Important:</strong>
+                      <strong>Note:</strong>
                       To view the QR code for your currency, use the
                       <Icon class="material-icons" style="margin: 0 0.15em; vertical-align: middle">settings_applications</Icon>
-                      button below. To scan the QR code, you'll need
-                      to either print it or open it on another device.
+                      button below. To scan the QR code, print it or
+                      display it on another device.
                     </p>
                   </Content>
                 </Paper>
