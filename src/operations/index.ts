@@ -31,6 +31,7 @@ import {
   getCreateTransferActionStatus,
   DeleteTransferTaskWithId,
   CreateTransferActionStatus,
+  EnsureUpdateConfigActionResult,
 } from './db'
 import {
   parsePaymentRequest,
@@ -242,7 +243,7 @@ export class UserContext {
     return this.debtorConfigData
   }
 
-  async editDebtorConfigData(data: DebtorConfigData): Promise<UpdateConfigActionWithId> {
+  async editDebtorConfigData(data: DebtorConfigData): Promise<EnsureUpdateConfigActionResult> {
     return await db.ensureUpdateConfigAction(this.userId, data)
   }
 

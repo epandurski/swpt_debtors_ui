@@ -65,7 +65,7 @@
 
   function editConfig(): void {
     app.startInteraction()
-    app.editConfig(debtorConfigData)
+    app.editConfig(debtorConfigData, true)
   }
 
   onDestroy(() => {

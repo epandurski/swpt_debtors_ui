@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { AppState } from '../app-state'
+  import type { AppState, ActionModel } from '../app-state'
   import type { UpdateConfigActionWithId } from '../operations'
   import type { Peg } from '../debtor-info'
   import {
@@ -21,6 +21,7 @@
 
   export let app: AppState
   export let action: UpdateConfigActionWithId
+  export let model: ActionModel
   export const snackbarBottom: string = "84px"
 
   const homepagePattern = "^[^\\/?#:]+([\\/?#]\\S*)?$"
@@ -140,6 +141,10 @@
     return isExactDivisor || isBigEnoughDivisor
   }
 
+  function showActions(): void {
+    app.showActions()
+  }
+
   $: invalid = (
     invalidCurrencyName ||
     invalidCurrencyAbbreviation ||
@@ -201,6 +206,7 @@
         noValidate
         autoComplete="off"
         on:input={() => actionManager.markDirty()}
+        on:input={() => model.goBack = showActions}
         on:change={() => actionManager.save()}
         >
 

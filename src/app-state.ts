@@ -242,16 +242,31 @@ export class AppState {
     })
   }
 
-  showAction(actionId: number, back?: () => void): Promise<void> {
+  showAction(
+    actionId: number,
+    back?: () => void,
+    options?: { deleteOnBack?: boolean },
+  ): Promise<void> {
     return this.attempt(async () => {
       const interactionId = this.interactionId
+      const deleteOnBack = options?.deleteOnBack ?? false
       const action = await this.uc.getActionRecord(actionId)
+      const goBack = back ?? (() => { this.showActions() })
       if (this.interactionId === interactionId) {
         if (action !== undefined) {
+          const deleteAction = () => {
+            this.uc.getActionRecord(actionId).then(
+              ar => {
+                if (ar) {
+                  this.uc.replaceActionRecord(ar, null).then(goBack, goBack)
+                }
+              }
+            )
+          }
           this.pageModel.set({
             type: 'ActionModel',
             reload: () => { this.showAction(actionId, back) },
-            goBack: back ?? (() => { this.showActions() }),
+            goBack: deleteOnBack ? deleteAction : goBack,
             action,
           })
         } else {
@@ -419,12 +434,24 @@ export class AppState {
     }
   }
 
-  editConfig(debtorConfigData: DebtorConfigData): Promise<void> {
+  editConfig(debtorConfigData: DebtorConfigData, editExistingConfig: boolean = false): Promise<void> {
     return this.attempt(async () => {
       const interactionId = this.interactionId
-      const updateConfigAction = await this.uc.editDebtorConfigData(debtorConfigData)
+      const {updateConfigAction, isNewlyCreatedAction} = await this.uc.editDebtorConfigData(debtorConfigData)
       if (this.interactionId === interactionId) {
-        this.showAction(updateConfigAction.actionId)
+        this.showAction(
+          updateConfigAction.actionId,
+          undefined,
+          {
+            // `UpdateConfigAction.svelte` has the responsibility to
+            // reset the "onBack" handler if the user made changes to
+            // an already existing config. If the user did not make
+            // changes to an already existing config, the newly
+            // created action will be automatically deleted when the
+            // user clicks the back button.
+            deleteOnBack: editExistingConfig && isNewlyCreatedAction
+          },
+        )
       }
     })
   }
