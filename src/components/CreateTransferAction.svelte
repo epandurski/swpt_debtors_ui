@@ -231,9 +231,9 @@
           <Cell spanDevices={{ desktop: 12, tablet: 8, phone: 4 }}>
             <strong>Legal notice:</strong> Tax reporting and payment
             obligations may apply when issuing and transferring
-            vouchers to other persons, depending on the laws of your
-            jurisdiction. You are responsible for complying with any
-            applicable tax requirements.
+            currencies or vouchers to other persons, depending on the
+            laws of your jurisdiction. You are responsible for
+            complying with any applicable tax requirements.
           </Cell>
         </LayoutGrid>
       </form>
