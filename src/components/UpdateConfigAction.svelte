@@ -30,6 +30,10 @@
     'currency. This is likely to confuse the users of your currency, and ' +
     'will make automatic exchanges with your currency impossible.'
   )
+  const currencyConfusingExchangeRate = (
+    'You specified a fixed exchange rate that may confuse the users of your ' +
+    'currency, and will make automatic exchanges with your currency very unlikely.'
+  )
   const currencyChangeAlert = (
     'Changing the currency name, the currency abbreviation, the amount divisor, ' +
     'or the number of displayed decimal places on a currency that is already in ' +
@@ -92,6 +96,13 @@
       // choose the default peg during the initial currency setup, and
       // remove the peg afterwards.
       app.addAlert(new Alert(currencyNoPegAlert))
+    } else if (mustConfigurePeg && peg && peg.display.unit === unit && peg.exchangeRate !== 1.0) {
+      // When pegging a new currency to a currency with the same
+      // units, make sure the exchange rate is 1 to 1. If users really
+      // want to use a different exchange rate (very unlikely), they
+      // may choose 1 to 1 rate during the initial currency setup, and
+      // change it afterwards.
+      app.addAlert(new Alert(currencyConfusingExchangeRate))
     } else if (
       (peg || confirm(currencyNoPegAlert)) &&
       (
