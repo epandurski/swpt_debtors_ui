@@ -166,6 +166,11 @@ export class RecordDoesNotExist extends Error {
   name = 'RecordDoesNotExist'
 }
 
+export type EnsureUpdateConfigActionResult = {
+  updateConfigAction: UpdateConfigActionWithId,
+  isNewlyCreatedAction: boolean,
+}
+
 const MAX_PROCESSING_DELAY_MILLISECONDS = 2 * appConfig.serverApiTimeout + 3_600_000  // to be on the safe side
 const TRANSFER_NORMAL_WAIT_SECONDS = 86400  // 24 hours before the transfer is considered delayed.
 const TRANSFER_DELETION_MIN_DELAY_SECONDS = 5 * 86400  // 5 days
@@ -351,13 +356,14 @@ class DebtorsDb extends Dexie {
   /* Creates a new update config action for the given user, but only
    * if an update config action does not exist already for the
    * user. */
-  async ensureUpdateConfigAction(userId: number, data: DebtorConfigData): Promise<UpdateConfigActionWithId> {
+  async ensureUpdateConfigAction(userId: number, data: DebtorConfigData): Promise<EnsureUpdateConfigActionResult> {
     return await this.transaction('rw', [this.debtors, this.actions], async () => {
       let action = await this.actions
         .where({ userId })
         .filter(action => action.actionType === 'UpdateConfig')
         .first()
-      if (!action) {
+      const mustCreateNewAction = !action
+      if (mustCreateNewAction) {
         action = {
           interestRate: data.interestRate,
           debtorInfo: data.debtorInfo,
@@ -368,7 +374,10 @@ class DebtorsDb extends Dexie {
         }
         await this.createActionRecord(action)
       }
-      return action as UpdateConfigActionWithId
+      return {
+        updateConfigAction: action as UpdateConfigActionWithId,
+        isNewlyCreatedAction: mustCreateNewAction,
+      }
     })
   }
 

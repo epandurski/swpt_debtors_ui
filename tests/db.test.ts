@@ -366,7 +366,7 @@ test("Create update config action", async () => {
   }
 
   // create an update config action
-  const action = await db.ensureUpdateConfigAction(userId, debtorConfigData) as UpdateConfigActionWithId
+  const {updateConfigAction: action} = await db.ensureUpdateConfigAction(userId, debtorConfigData)
   expect(action.actionType).toBe('UpdateConfig')
   expect(action.interestRate).toBe(debtorConfigData.interestRate)
   expect(action.debtorInfo).toBe(debtorConfigData.debtorInfo)
@@ -374,7 +374,7 @@ test("Create update config action", async () => {
 
   // fails to create another update config action for the same user
   const changedDebtorConfigData = { ...debtorConfigData, interestRate: -5 }
-  const anotherAction = await db.ensureUpdateConfigAction(userId, changedDebtorConfigData) as UpdateConfigActionWithId
+  const {updateConfigAction: anotherAction} = await db.ensureUpdateConfigAction(userId, changedDebtorConfigData)
   expect(anotherAction).toEqual(action)
   await expect(db.getActionRecords(userId)).resolves.toEqual([action])
 })

@@ -16,5 +16,5 @@
 {:else if action.actionType === 'AbortTransfer'}
   <AbortTransferAction {action} {app} bind:snackbarBottom />
 {:else if action.actionType === 'UpdateConfig'}
-  <UpdateConfigAction {action} {app} bind:snackbarBottom />
+  <UpdateConfigAction {model} {action} {app} bind:snackbarBottom />
 {/if}
