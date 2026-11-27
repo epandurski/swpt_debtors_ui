@@ -262,12 +262,11 @@
                 {/if}
               </svelte:fragment>
               <HelperText slot="helper" persistent>
-                This will appear right after the displayed amount
+                This will be displayed immediately after the amount
                 (e.g., "{amountToLocaleString(50000n, 100, 2)} {exampleAbbr}").
-                If your currency has a recognized name, enter its
-                abbreviation here. If your currency is a proxy for a
-                well-known currency, use that currency's abbreviation
-                ("{exampleAbbr}" for example).
+                In most cases, this should be the abbreviation of the
+                currency in which you pay your taxes ("{exampleAbbr}"
+                for example).
               </HelperText>
             </Textfield>
           </Cell>
