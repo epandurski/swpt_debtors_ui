@@ -18,8 +18,8 @@ export const PROBLEM_ON_THE_SERVER = "There seems to be a problem on the server.
 export const NETWORK_PROBLEM = "A network problem has occured. Please check your Internet connection."
 export const UNEXPECTED_ERROR = "Oops, something went wrong."
 export const INVALID_PAYMENT_REQUEST = (
-  "Invalid payment request. Make sure that you are scanning the correct" +
-  " QR code, for the correct payment request."
+  "Invalid payment request. Make sure you're loading a payment" +
+  " request in your own currency."
 )
 
 // This message will be shown when the user wants to view the details of a
