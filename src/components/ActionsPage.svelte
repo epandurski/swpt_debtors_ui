@@ -180,11 +180,11 @@
                     <p class="to-make-payment">To fund your wallet:</p>
                     <ol>
                       <li>In the wallet app, create an account for your own currency.</li>
-                      <li>In the wallet app, create a payment request to yourself.</li>
+                      <li>In the wallet app, create a payment request in your own currency (addressed to yourself).</li>
                       <li>
                         Click the
                         <Icon class="material-icons" style="margin: 0 0.15em; vertical-align: middle">local_atm</Icon>
-                        button below and load your payment request.
+                        button below and load your own payment request.
                       </li>
                       <li>Confirm the payment.</li>
                     </ol>
